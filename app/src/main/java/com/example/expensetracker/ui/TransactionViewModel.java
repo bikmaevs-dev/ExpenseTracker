@@ -23,4 +23,11 @@ public class TransactionViewModel extends ViewModel {
         transactionRepository.addTransaction(transaction);
     }
 
+    public void updateTransaction(TransactionEntity transaction) {
+        transactionRepository.updateTransaction(transaction);
+    }
+
+    public void deleteTransaction(TransactionEntity transaction) {
+        transactionRepository.deleteTransaction(transaction);
+    }
 }

@@ -28,11 +28,15 @@ public class TransactionRepository {
         return transactionDao.getAllTransactions();
     }
 
-    public int updateTransaction(TransactionEntity transaction) {
-        return transactionDao.updateTransaction(transaction);
+    public void updateTransaction(TransactionEntity transaction) {
+        executorService.execute(() -> {
+            transactionDao.updateTransaction(transaction);
+        });
     }
 
-    public int deleteTransaction(TransactionEntity transaction) {
-        return transactionDao.deleteTransaction(transaction);
+    public void deleteTransaction(TransactionEntity transaction) {
+        executorService.execute(() -> {
+            transactionDao.deleteTransaction(transaction);
+        });
     }
 }

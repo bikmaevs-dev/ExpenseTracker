@@ -18,8 +18,8 @@ public interface TransactionDao {
     LiveData<List<TransactionEntity>> getAllTransactions();
 
     @Update
-    int updateTransaction(TransactionEntity transaction);
+    void updateTransaction(TransactionEntity transaction);
 
     @Delete
-    int deleteTransaction(TransactionEntity transaction);
+    void deleteTransaction(TransactionEntity transaction);
 }
