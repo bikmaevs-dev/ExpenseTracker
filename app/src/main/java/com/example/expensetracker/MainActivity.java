@@ -1,6 +1,8 @@
 package com.example.expensetracker;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,6 +40,12 @@ public class MainActivity extends AppCompatActivity {
         textBalance = findViewById(R.id.textBalance);
         textIncome = findViewById(R.id.textIncome);
         textExpense = findViewById(R.id.textExpense);
+        Button buttonAddTransaction = findViewById(R.id.buttonAddTransaction);
+
+        buttonAddTransaction.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AddTransactionActivity.class);
+            startActivity(intent);
+        });
 
         transactionViewModel = new ViewModelProvider(
                 this,
