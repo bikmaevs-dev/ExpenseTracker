@@ -1,5 +1,6 @@
 package com.example.expensetracker.data.local;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -14,7 +15,7 @@ public interface TransactionDao {
     Long addTransaction(TransactionEntity transaction);
 
     @Query("SELECT * FROM transactions")
-    List<TransactionEntity> getAllTransactions();
+    LiveData<List<TransactionEntity>> getAllTransactions();
 
     @Update
     int updateTransaction(TransactionEntity transaction);

@@ -1,5 +1,7 @@
 package com.example.expensetracker.data.repository;
 
+import androidx.lifecycle.LiveData;
+
 import com.example.expensetracker.data.local.TransactionDao;
 import com.example.expensetracker.data.local.TransactionEntity;
 
@@ -16,7 +18,7 @@ public class TransactionRepository {
         return transactionDao.addTransaction(transaction);
     }
 
-    public List<TransactionEntity> getAllTransactions() {
+    public LiveData<List<TransactionEntity>> getAllTransactions() {
         return transactionDao.getAllTransactions();
     }
 
