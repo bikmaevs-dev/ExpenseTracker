@@ -1,6 +1,7 @@
 package com.example.expensetracker;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -8,7 +9,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.expensetracker.data.local.AppDatabase;
 import com.example.expensetracker.data.local.DatabaseProvider;
 import com.example.expensetracker.data.local.TransactionDao;
+import com.example.expensetracker.data.local.TransactionEntity;
 import com.example.expensetracker.data.repository.TransactionRepository;
+import com.example.expensetracker.model.TransactionType;
 import com.example.expensetracker.ui.TransactionViewModel;
 import com.example.expensetracker.ui.TransactionViewModelFactory;
 
@@ -20,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private TransactionViewModelFactory transactionViewModelFactory;
     private TransactionViewModel transactionViewModel;
 
+    private TextView textBalance, textIncome, textExpense;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
         transactionRepository = new TransactionRepository(transactionDao);
         transactionViewModelFactory = new TransactionViewModelFactory(transactionRepository);
 
+        textBalance = findViewById(R.id.textBalance);
+        textIncome = findViewById(R.id.textIncome);
+        textExpense = findViewById(R.id.textExpense);
+
         transactionViewModel = new ViewModelProvider(
                 this,
                 transactionViewModelFactory
@@ -38,6 +47,22 @@ public class MainActivity extends AppCompatActivity {
         transactionViewModel
                 .getAllTransactions()
                 .observe(this, transactions -> {
+                    long income = 0;
+                    long expense = 0;
+
+                    for (TransactionEntity transaction: transactions) {
+                        if (transaction.getType() == TransactionType.INCOME) {
+                            income += transaction.getAmount();
+                        } else if (transaction.getType() == TransactionType.EXPENSE) {
+                            expense += transaction.getAmount();
+                        }
+                    }
+
+                    long balance = income - expense;
+
+                    textBalance.setText(balance + " ₽");
+                    textIncome.setText(income + " ₽");
+                    textExpense.setText(expense + " ₽");
 
                 });
     }
