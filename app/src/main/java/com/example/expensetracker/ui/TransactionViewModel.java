@@ -19,4 +19,8 @@ public class TransactionViewModel extends ViewModel {
         return transactionRepository.getAllTransactions();
     }
 
+    public void addTransaction(TransactionEntity transaction) {
+        transactionRepository.addTransaction(transaction);
+    }
+
 }
