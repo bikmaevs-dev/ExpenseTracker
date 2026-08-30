@@ -18,6 +18,15 @@ public class TransactionEntity {
     private String comment;
     private LocalDate date;
 
+    public TransactionEntity(Long id, long amount, TransactionType type, String category, String comment, LocalDate date) {
+        this.id = id;
+        this.amount = amount;
+        this.type = type;
+        this.category = category;
+        this.comment = comment;
+        this.date = date;
+    }
+
     public Long getId() {
         return id;
     }
