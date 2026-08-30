@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.expensetracker.data.local.AppDatabase;
 import com.example.expensetracker.data.local.DatabaseProvider;
@@ -14,8 +16,11 @@ import com.example.expensetracker.data.local.TransactionDao;
 import com.example.expensetracker.data.local.TransactionEntity;
 import com.example.expensetracker.data.repository.TransactionRepository;
 import com.example.expensetracker.model.TransactionType;
+import com.example.expensetracker.ui.TransactionAdapter;
 import com.example.expensetracker.ui.TransactionViewModel;
 import com.example.expensetracker.ui.TransactionViewModelFactory;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private TransactionViewModel transactionViewModel;
 
     private TextView textBalance, textIncome, textExpense;
+
+    private RecyclerView recyclerTransactions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         textExpense = findViewById(R.id.textExpense);
         Button buttonAddTransaction = findViewById(R.id.buttonAddTransaction);
 
+        recyclerTransactions = findViewById(R.id.recyclerTransactions);
+
         buttonAddTransaction.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AddTransactionActivity.class);
             startActivity(intent);
@@ -51,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
                 this,
                 transactionViewModelFactory
         ).get(TransactionViewModel.class);
+
+        TransactionAdapter adapter = new TransactionAdapter(new ArrayList<>());
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
+        recyclerTransactions.setLayoutManager(manager);
+        recyclerTransactions.setAdapter(adapter);
+
 
         transactionViewModel
                 .getAllTransactions()
@@ -72,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     textIncome.setText(income + " ₽");
                     textExpense.setText(expense + " ₽");
 
+                    adapter.updateTransactions(transactions);
                 });
     }
 }
