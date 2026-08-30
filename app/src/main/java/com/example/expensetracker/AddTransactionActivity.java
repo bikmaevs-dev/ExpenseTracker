@@ -48,6 +48,7 @@ public class AddTransactionActivity extends AppCompatActivity {
         );
 
         typeDropdown.setText("Расход", false);
+        typeDropdown.setOnClickListener(v -> typeDropdown.showDropDown());
 
         categoryDropdown.setAdapter(
                 new ArrayAdapter<>(
@@ -56,6 +57,8 @@ public class AddTransactionActivity extends AppCompatActivity {
                         new String[]{"Еда", "Транспорт", "Покупки", "Развлечения", "Зарплата", "Другое"}
                 )
         );
+
+        categoryDropdown.setOnClickListener(v -> categoryDropdown.showDropDown());
 
         Button saveButton = findViewById(R.id.buttonSaveTransaction);
 
