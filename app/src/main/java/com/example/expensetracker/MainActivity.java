@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -61,7 +62,16 @@ public class MainActivity extends AppCompatActivity {
                 transactionViewModelFactory
         ).get(TransactionViewModel.class);
 
-        TransactionAdapter adapter = new TransactionAdapter(new ArrayList<>());
+        TransactionAdapter.OnTransactionClickListener listener = new TransactionAdapter.OnTransactionClickListener() {
+            @Override
+            public void onTransactionClick(TransactionEntity transaction) {
+                Intent intent = new Intent(MainActivity.this, EditTransactionActivity.class);
+                intent.putExtra("transaction_id", transaction.getId());
+                startActivity(intent);
+            }
+        };
+
+        TransactionAdapter adapter = new TransactionAdapter(new ArrayList<>(), listener);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
         recyclerTransactions.setLayoutManager(manager);
         recyclerTransactions.setAdapter(adapter);

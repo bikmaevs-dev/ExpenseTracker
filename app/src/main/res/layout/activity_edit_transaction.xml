@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Редактирование"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Измените данные операции"
+            android:textSize="16sp"
+            android:alpha="0.6"
+            android:layout_marginBottom="28dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Сумма"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:textSize="18sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Тип операции"
+            app:endIconMode="dropdown_menu"
+            android:layout_marginBottom="16dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/typeDropdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Категория"
+            app:endIconMode="dropdown_menu"
+            android:layout_marginBottom="16dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/categoryDropdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Комментарий"
+            android:layout_marginBottom="28dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences|textMultiLine"
+                android:minLines="3"
+                android:gravity="top"
+                android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/buttonSaveTransaction"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Сохранить изменения"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</ScrollView>

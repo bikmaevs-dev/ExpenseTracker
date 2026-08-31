@@ -30,4 +30,8 @@ public class TransactionViewModel extends ViewModel {
     public void deleteTransaction(TransactionEntity transaction) {
         transactionRepository.deleteTransaction(transaction);
     }
+
+    public LiveData<TransactionEntity> getTransactionById(Long id) {
+        return transactionRepository.getTransactionById(id);
+    }
 }

@@ -28,20 +28,29 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             textDate = itemView.findViewById(R.id.textDate);
         }
 
-        public void bind(TransactionEntity transaction) {
+        public void bind(TransactionEntity transaction, OnTransactionClickListener listener) {
             textCategory.setText(transaction.getCategory());
             textDate.setText(String.valueOf(transaction.getDate()));
             textComment.setText(transaction.getComment());
             textAmount.setText(String.valueOf(transaction.getAmount() + " ₽"));
+
+            itemView.setOnClickListener(v -> {
+                listener.onTransactionClick(transaction);
+            });
         }
     }
 
-    private List<TransactionEntity> transactions;
-
-    public TransactionAdapter(List<TransactionEntity> transactions) {
-        this.transactions = transactions;
+    public interface OnTransactionClickListener {
+        void onTransactionClick(TransactionEntity transaction);
     }
 
+    private List<TransactionEntity> transactions;
+    private final OnTransactionClickListener listener;
+
+    public TransactionAdapter(List<TransactionEntity> transactions, OnTransactionClickListener listener) {
+        this.transactions = transactions;
+        this.listener = listener;
+    }
 
     @NonNull
     @Override
@@ -53,7 +62,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     @Override
     public void onBindViewHolder(@NonNull TransactionAdapter.TransactionViewHolder holder, int position) {
         TransactionEntity transaction = transactions.get(position);
-        holder.bind(transaction);
+        holder.bind(transaction, listener);
     }
 
     @Override

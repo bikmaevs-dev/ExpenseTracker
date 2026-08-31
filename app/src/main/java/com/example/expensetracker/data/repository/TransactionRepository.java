@@ -39,4 +39,8 @@ public class TransactionRepository {
             transactionDao.deleteTransaction(transaction);
         });
     }
+
+    public LiveData<TransactionEntity> getTransactionById(Long id) {
+        return transactionDao.getTransactionById(id);
+    }
 }

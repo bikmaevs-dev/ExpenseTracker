@@ -22,4 +22,7 @@ public interface TransactionDao {
 
     @Delete
     void deleteTransaction(TransactionEntity transaction);
+
+    @Query("SELECT * FROM transactions WHERE id = :id")
+    LiveData<TransactionEntity> getTransactionById(Long id);
 }
