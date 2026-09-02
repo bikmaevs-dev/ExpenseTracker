@@ -1,6 +1,10 @@
 package com.example.expensetracker;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -30,6 +34,7 @@ public class EditTransactionActivity extends AppCompatActivity {
     private TextInputEditText editAmount, editComment;
     private AutoCompleteTextView typeDropdown, categoryDropdown;
     private Button saveButton;
+    private Button deleteButton;
 
     private TransactionEntity transactionEntity;
 
@@ -38,7 +43,7 @@ public class EditTransactionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_transaction);
 
-        Long transactionId = getIntent().getLongExtra("transaction_id", -1);
+        long transactionId = getIntent().getLongExtra("transaction_id", -1);
 
         database = DatabaseProvider.getInstance(this);
         transactionDao = database.getTransactionDao();
@@ -50,6 +55,7 @@ public class EditTransactionActivity extends AppCompatActivity {
         typeDropdown = findViewById(R.id.typeDropdown);
         categoryDropdown = findViewById(R.id.categoryDropdown);
         saveButton = findViewById(R.id.buttonSaveTransaction);
+        deleteButton = findViewById(R.id.buttonDeleteTransaction);
 
 
         transactionViewModel = new ViewModelProvider(
@@ -65,18 +71,6 @@ public class EditTransactionActivity extends AppCompatActivity {
                 )
         );
 
-        typeDropdown.setOnClickListener(v -> {
-            String currentText = typeDropdown.getText().toString();
-            typeDropdown.setText(currentText, false);
-            typeDropdown.showDropDown();
-        });
-
-        typeDropdown.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                typeDropdown.showDropDown();
-            }
-        });
-
 
         categoryDropdown.setAdapter(
                 new ArrayAdapter<>(
@@ -85,18 +79,6 @@ public class EditTransactionActivity extends AppCompatActivity {
                         new String[] {"Еда", "Транспорт", "Покупки", "Развлечения", "Зарплата", "Другое"}
                 )
         );
-
-        categoryDropdown.setOnClickListener(v -> {
-            String currentText = categoryDropdown.getText().toString();
-            categoryDropdown.setText(currentText, false);
-            categoryDropdown.showDropDown();
-        });
-
-        categoryDropdown.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                categoryDropdown.showDropDown();
-            }
-        });
 
         transactionViewModel
                 .getTransactionById(transactionId)
@@ -113,7 +95,13 @@ public class EditTransactionActivity extends AppCompatActivity {
                 });
 
         saveButton.setOnClickListener(v -> {
-            long amount = Long.parseLong(String.valueOf(editAmount.getText()).trim());
+            String amountText = editAmount.getText().toString().trim();
+            if (amountText.isEmpty()) {
+                editAmount.setError("Введите сумму");
+                return;
+            }
+
+            long amount = Long.parseLong(amountText);
 
             TransactionType type;
             if (typeDropdown.getText().toString().equals("Доход")) {
@@ -132,6 +120,18 @@ public class EditTransactionActivity extends AppCompatActivity {
             transactionViewModel.updateTransaction(updatedTransaction);
 
             finish();
+        });
+
+        deleteButton.setOnClickListener(v -> {
+            new AlertDialog.Builder(this)
+                    .setTitle("Удалить операцию?")
+                    .setMessage("Это действие нельзя отменить.")
+                    .setNegativeButton("Отмена", null)
+                    .setPositiveButton("Удалить", (dialog, which) -> {
+                        transactionViewModel.deleteTransaction(transactionEntity);
+
+                    })
+                    .show();
         });
     }
 }
